@@ -3,8 +3,10 @@ package co.com.sofka.questions.useCases.persons;
 import co.com.sofka.questions.model.PersonDTO;
 import co.com.sofka.questions.repositories.PersonRepository;
 import co.com.sofka.questions.utils.MapperUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
@@ -25,6 +27,7 @@ public class GetPersonUseCase implements Function<String, Mono<PersonDTO>> {
     public Mono<PersonDTO> apply(String uid) {
         Objects.requireNonNull(uid, "User Id is required");
         return personRepository.findPersonByUid(uid)
-                .map(mapperUtils.mapEntityToPersonDTO());
+                .map(mapperUtils.mapEntityToPersonDTO())
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.CONFLICT)));
     }
 }
