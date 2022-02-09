@@ -37,10 +37,9 @@ public class MapperUtils {
             var question = new Question();
             question.setId(id);
             question.setUserId(updateQuestion.getUserId());
-            question.setCategory(updateQuestion.getCategory());
             question.setQuestion(updateQuestion.getQuestion());
-            question.setUserId(updateQuestion.getUserId());
             question.setType(updateQuestion.getType());
+            question.setCategory(updateQuestion.getCategory());
             question.setEmail(updateQuestion.getEmail());
             return question;
         };
